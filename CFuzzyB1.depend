@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1329866583 source:d:\git\cfuzzy\fuzzyb1.c
+	<stdio.h>
+	<stdlib.h>
+
