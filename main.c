@@ -162,8 +162,8 @@ int main(int argc, char* argv[])
 
     init();
 
-    input[0] = 7.5;
-    input[1] = 6;
+    input[0] = 2.5;
+    input[1] = 8.106;
 
     fuzzification();
     evalRules();

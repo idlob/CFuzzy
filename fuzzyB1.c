@@ -51,9 +51,30 @@ float input[2];
 float output[2];
 float mu[9];
 
+//inference: Sugeno, aggregation method: max
+void defuzzification()
+{
+    int ruleNum, inVNum;
+    double sum;
+    for(inVNum = 0; inVNum < numOfInVars; inVNum++)
+    {
+        sum = 0;
+        for(ruleNum = 0; ruleNum < numOfRules; ruleNum++)
+        {
+            if(ruleInOperands[inVNum][ruleNum])
+            {
+                output[inVNum] += mu[ruleNum] * outputMF[inVNum].inMFs[ruleOutOperands[inVNum][ruleNum]-1].middleVertex;
+                sum += mu[ruleNum];
+            }
+        }
+        output[inVNum] /= sum;
+    }
+}
+
+//implication method: min
 void evalRules()
 {
-    int ruleNum, inVNum, ruleOp, domPos;
+    int ruleNum, inVNum, ruleOp;
     double prevDom;
     for(ruleNum = 0; ruleNum < numOfRules; ruleNum++)
     {
@@ -91,11 +112,6 @@ void fuzzification()
     }
 }
 
-void defuzzification()
-{
-
-}
-
 void error(char *message)
 {
     isError++;
@@ -118,15 +134,14 @@ int main(int argc, char* argv[])
 
     init();
 
-    input[0] = 7.5;
-    input[1] = 6;
+    input[0] = 2.5;
+    input[1] = 8.11;
 
     fuzzification();
     evalRules();
     defuzzification();
 
-    for(j=0;j<2;j++)
-        for(i=0;i<3;i++) printf("%f ",dom[j][i]);
+    for(j=0;j<2;j++) for(i=0;i<3;i++) printf("%f ",dom[j][i]);
     printf("\n\n");
     for(i=0;i<9;i++) printf("%f\n",mu[i]);
     printf("\n");
